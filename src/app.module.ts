@@ -9,9 +9,9 @@ import { GlassesModule } from './glasses/glasses.module';
 import { DoorsModule } from './doors/doors.module';
 import { ConstructionsModule } from './constructions/constructions.module';
 import { AdditionalsModule } from './additionals/additionals.module';
+import { AuthModule } from './auth/auth.module';
 
 import { User } from './users/entities/user.entity';
-import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [

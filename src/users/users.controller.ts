@@ -1,7 +1,16 @@
-import { Body, Controller, Get, Post, Res } from '@nestjs/common';
-import { Response } from 'express';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Res,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
+import { Response, Request } from 'express';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
+import { LoginGuard } from 'src/auth/login.guard';
 
 @Controller('users')
 export class UsersController {
@@ -20,5 +29,12 @@ export class UsersController {
   ) {
     const newUser = await this.usersService.createNewUser(createUserDto);
     response.json({ message: 'регистрация прошла успешно', newUser });
+  }
+
+  @Post('login')
+  @UseGuards(LoginGuard)
+  async login(@Req() request: Request) {
+    const user = request.user;
+    return { message: 'вы вошли в систему', user };
   }
 }
