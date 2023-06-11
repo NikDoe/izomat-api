@@ -22,7 +22,7 @@ export class AuthService {
       );
     }
 
-    const validPassword = bcrypt.compare(password, existingUser.password);
+    const validPassword = await bcrypt.compare(password, existingUser.password);
 
     if (!validPassword) {
       throw new UnauthorizedException('неверные данные');
