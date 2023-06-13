@@ -11,6 +11,7 @@ import { Response, Request } from 'express';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginGuard } from 'src/auth/login.guard';
+import { AuthenticatedGuard } from 'src/auth/authenticated.guard';
 
 @Controller('users')
 export class UsersController {
@@ -36,5 +37,15 @@ export class UsersController {
   async login(@Req() request: Request) {
     const user = request.user;
     return { message: 'вы вошли в систему', user };
+  }
+
+  @Get('login-check')
+  @UseGuards(AuthenticatedGuard)
+  async loginCheck(
+    @Req() request: Request,
+    @Res() response: Response,
+  ): Promise<void> {
+    const user = request.user;
+    response.json(user);
   }
 }
