@@ -34,9 +34,12 @@ export class UsersController {
 
   @Post('login')
   @UseGuards(LoginGuard)
-  async login(@Req() request: Request) {
+  async login(
+    @Req() request: Request,
+    @Res() response: Response,
+  ): Promise<void> {
     const user = request.user;
-    return { message: 'вы вошли в систему', user };
+    response.json({ message: 'вы вошли в систему', user });
   }
 
   @Get('login-check')
