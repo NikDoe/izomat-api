@@ -51,4 +51,10 @@ export class UsersController {
     const user = request.user;
     response.json(user);
   }
+
+  @Get('logout')
+  async logout(@Res() response: Response): Promise<void> {
+    response.clearCookie(process.env.SESSION_ID_NAME);
+    response.json({ message: 'вы вышли из системы' });
+  }
 }
