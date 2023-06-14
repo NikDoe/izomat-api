@@ -8,11 +8,14 @@ import {
   Delete,
   Res,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+
 import { DoorsService } from './doors.service';
 import { CreateDoorDto } from './dto/create-door.dto';
 import { UpdateDoorDto } from './dto/update-door.dto';
 import { Response } from 'express';
 
+@ApiTags('doors')
 @Controller('doors')
 export class DoorsController {
   constructor(private readonly doorsService: DoorsService) {}

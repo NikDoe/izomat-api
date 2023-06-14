@@ -8,11 +8,14 @@ import {
   Delete,
   Res,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
+
 import { GlassesService } from './glasses.service';
 import { CreateGlassDto } from './dto/create-glass.dto';
 import { UpdateGlassDto } from './dto/update-glass.dto';
 import { Response } from 'express';
 
+@ApiTags('glasses')
 @Controller('glasses')
 export class GlassesController {
   constructor(private readonly glassesService: GlassesService) {}
