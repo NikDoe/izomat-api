@@ -2,7 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 
 import * as bcrypt from 'bcrypt';
 
-import { ValidUserType } from 'src/types';
+import { ValidUserType } from 'src/users/types';
 
 import { UsersService } from 'src/users/users.service';
 
