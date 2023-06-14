@@ -7,25 +7,56 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOkResponse,
+  ApiOperation,
+  ApiBody,
+  ApiBadRequestResponse,
+  ApiConflictResponse,
+} from '@nestjs/swagger';
 
 import { Response, Request } from 'express';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginGuard } from 'src/auth/login.guard';
 import { AuthenticatedGuard } from 'src/auth/authenticated.guard';
+import {
+  GetAllUsersResponse,
+  BadRequestErrorType,
+  SignUpResponse,
+  ConflictErrorType,
+} from './types';
 
 @ApiTags('users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @ApiOperation({
+    summary: 'Получение всех пользователей',
+    description:
+      'используйте этот  ROUTE, если вы хотите получить массив состоящих из объектов данных пользователей',
+  })
+  @ApiOkResponse({ type: GetAllUsersResponse })
   @Get()
   async findAll(@Res() response: Response): Promise<void> {
     const users = await this.usersService.getAllUsers();
     response.json({ message: 'получены все пользователи', users });
   }
 
+  @ApiOperation({
+    summary: 'Регистрация нового пользователя',
+    description:
+      'используйте этот  ROUTE, если вы хотите зарегистрировать нового пользователя',
+  })
+  @ApiBody({
+    type: CreateUserDto,
+    description: 'Объект который должен прийти с клиента',
+  })
+  @ApiOkResponse({ type: SignUpResponse })
+  @ApiBadRequestResponse({ type: BadRequestErrorType })
+  @ApiConflictResponse({ type: ConflictErrorType })
   @Post('signup')
   async createNewUser(
     @Body() createUserDto: CreateUserDto,
