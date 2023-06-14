@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ConfigModule } from '@nestjs/config';
+import { APP_PIPE } from '@nestjs/core';
 
 import { Dialect } from 'sequelize';
 
@@ -10,6 +11,7 @@ import { DoorsModule } from './doors/doors.module';
 import { ConstructionsModule } from './constructions/constructions.module';
 import { AdditionalsModule } from './additionals/additionals.module';
 import { AuthModule } from './auth/auth.module';
+import { ValidationPipe } from './pipes/validation.pipe';
 
 import { User } from './users/entities/user.entity';
 
@@ -38,6 +40,12 @@ import { User } from './users/entities/user.entity';
     ConstructionsModule,
     AdditionalsModule,
     AuthModule,
+  ],
+  providers: [
+    {
+      provide: APP_PIPE,
+      useClass: ValidationPipe,
+    },
   ],
 })
 export class AppModule {}
