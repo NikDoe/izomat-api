@@ -16,12 +16,12 @@ export class CreateUserDto {
   readonly username: string;
 
   @ApiProperty({ example: 'PDPOKDpkdp89723' })
-  @IsEmail({}, { message: 'невалидный email' })
-  @IsNotEmpty({ message: 'email обязателен для заполнения' })
+  @MinLength(6, { message: 'пароль не должен быть кароче 6 символов' })
+  @IsNotEmpty({ message: 'пароль обязателен для заполнения' })
   readonly password: string;
 
   @ApiProperty({ example: 'username@email.com' })
-  @MinLength(6, { message: 'пароль не должен быть кароче 6 символов' })
-  @IsNotEmpty({ message: 'пароль обязателен для заполнения' })
+  @IsEmail({}, { message: 'невалидный email' })
+  @IsNotEmpty({ message: 'email обязателен для заполнения' })
   readonly email: string;
 }
