@@ -1,49 +1,38 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-import { User } from '../entities/user.entity';
+class UserProps {
+  @ApiProperty({ example: 1 })
+  id: number;
+
+  @ApiProperty({ example: 'username' })
+  username: string;
+
+  @ApiProperty({ example: 'hashed_password' })
+  password: string;
+
+  @ApiProperty({ example: 'username@email.com' })
+  email: string;
+
+  @ApiProperty({ example: '2023-06-14T16:36:49.331Z' })
+  createdAt: string;
+
+  @ApiProperty({ example: '2023-06-14T16:36:49.331Z' })
+  updatedAt: string;
+}
 
 export class GetAllUsersResponse {
   @ApiProperty({ example: 'получены все пользователи' })
   message: string;
 
-  @ApiProperty({
-    type: () => [User],
-    example: [
-      {
-        id: 1,
-        username: 'username1',
-        password: 'password1',
-        email: 'user1@email.com',
-        createdAt: '2023-06-06T15:25:58.000Z',
-        updatedAt: '2023-06-06T15:25:58.000Z',
-      },
-      {
-        id: 2,
-        username: 'username2',
-        password: 'password2',
-        email: 'user2@email.com',
-        createdAt: '2023-06-06T15:25:58.000Z',
-        updatedAt: '2023-06-06T15:25:58.000Z',
-      },
-    ],
-  })
-  users: User[];
+  @ApiProperty({ type: UserProps, isArray: true })
+  users: UserProps[];
 }
 
 export class SignUpResponse {
   @ApiProperty({ example: 'регистрация прошла успешно' })
   message: string;
 
-  @ApiProperty({
-    example: {
-      id: 1,
-      username: 'username',
-      password: 'hashed_password',
-      email: 'username@email.com',
-      updatedAt: '2023-06-14T16:36:49.331Z',
-      createdAt: '2023-06-14T16:36:49.331Z',
-    },
-  })
+  @ApiProperty({ type: UserProps, example: UserProps })
   newUser: {
     id: number;
     username: string;
