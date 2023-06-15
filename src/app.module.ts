@@ -14,6 +14,7 @@ import { AuthModule } from './auth/auth.module';
 import { ValidationPipe } from './pipes/validation.pipe';
 
 import { User } from './users/entities/user.entity';
+import { Glass } from './glasses/entities/glass.entity';
 
 @Module({
   imports: [
@@ -25,7 +26,7 @@ import { User } from './users/entities/user.entity';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_NAME,
-      models: [User],
+      models: [User, Glass],
       define: {
         charset: 'utf8',
         collate: 'utf8_general_ci',
