@@ -32,7 +32,7 @@ export class SignUpResponse {
   @ApiProperty({ example: 'регистрация прошла успешно' })
   message: string;
 
-  @ApiProperty({ type: UserProps, example: UserProps })
+  @ApiProperty({ type: UserProps })
   newUser: {
     id: number;
     username: string;
