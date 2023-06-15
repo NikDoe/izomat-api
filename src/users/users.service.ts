@@ -11,7 +11,7 @@ export class UsersService {
   constructor(@InjectModel(User) private userModel: typeof User) {}
 
   async getAllUsers(): Promise<User[]> {
-    return this.userModel.findAll();
+    return await this.userModel.findAll();
   }
 
   async findOneUser(where: {
@@ -19,7 +19,7 @@ export class UsersService {
     username?: string;
     email?: string;
   }): Promise<User> {
-    return this.userModel.findOne({ where });
+    return await this.userModel.findOne({ where });
   }
 
   async createNewUser(createUserDto: CreateUserDto): Promise<User> {
