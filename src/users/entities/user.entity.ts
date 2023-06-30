@@ -1,13 +1,19 @@
-import { Column, Model, Table } from 'sequelize-typescript';
+import { Column, DataType, Model, Table } from 'sequelize-typescript';
 
-@Table
-export class User extends Model {
-  @Column
+interface UserCreationAttrs {
+  username: string;
+  email: string;
+  password: string;
+}
+
+@Table({ tableName: 'users' })
+export class User extends Model<User, UserCreationAttrs> {
+  @Column({ type: DataType.STRING, unique: true, allowNull: false })
   username: string;
 
-  @Column
+  @Column({ type: DataType.STRING, allowNull: false })
   password: string;
 
-  @Column
+  @Column({ type: DataType.STRING, unique: true, allowNull: false })
   email: string;
 }
