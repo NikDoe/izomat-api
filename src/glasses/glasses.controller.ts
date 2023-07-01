@@ -8,18 +8,43 @@ import {
   Delete,
   Res,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+import {
+  ApiBadRequestResponse,
+  ApiBody,
+  ApiOkResponse,
+  ApiOperation,
+  ApiParam,
+  ApiTags,
+} from '@nestjs/swagger';
 
 import { GlassesService } from './glasses.service';
 import { CreateGlassDto } from './dto/create-glass.dto';
 import { UpdateGlassDto } from './dto/update-glass.dto';
 import { Response } from 'express';
 
+import {
+  CreateGlassResponse,
+  DeleteGlassResponse,
+  FindOneGlassResponse,
+  GetAllGlassResponse,
+  UpdateGlassResponse,
+} from './types';
+import { BadRequestErrorType } from 'src/common/types';
+
 @ApiTags('glasses')
 @Controller('glasses')
 export class GlassesController {
   constructor(private readonly glassesService: GlassesService) {}
 
+  @ApiOperation({
+    summary: 'Создание нового объект стекла',
+  })
+  @ApiBody({
+    description: 'объект для создания нового стекла',
+    type: CreateGlassDto,
+  })
+  @ApiOkResponse({ type: CreateGlassResponse })
+  @ApiBadRequestResponse({ type: BadRequestErrorType })
   @Post()
   async create(
     @Body() createGlassDto: CreateGlassDto,
@@ -29,12 +54,20 @@ export class GlassesController {
     response.json({ message: 'объект успешно создан', newGlass });
   }
 
+  @ApiOperation({
+    summary: 'Получение массива всех стёкл',
+  })
+  @ApiOkResponse({ type: GetAllGlassResponse })
   @Get()
   async findAll(@Res() response: Response): Promise<void> {
     const glasses = await this.glassesService.findAll();
     response.json({ message: 'получены все данные', glasses });
   }
 
+  @ApiOperation({
+    summary: 'получение конкретного обьекта по ID',
+  })
+  @ApiOkResponse({ type: FindOneGlassResponse })
   @Get(':id')
   async findOne(
     @Param('id') id: string,
@@ -44,6 +77,11 @@ export class GlassesController {
     response.json({ message: `получен объект #${id}`, findOneGlass });
   }
 
+  @ApiOperation({
+    summary: 'изменение конкретного объекта стекла',
+  })
+  @ApiBody({ type: UpdateGlassDto })
+  @ApiOkResponse({ type: UpdateGlassResponse })
   @Patch(':id')
   async update(
     @Param('id') id: string,
@@ -54,6 +92,10 @@ export class GlassesController {
     response.json({ message: `объект #${id} успешно обновлён`, updatedGlass });
   }
 
+  @ApiOperation({
+    summary: 'Удаление конкретного объекта стекла',
+  })
+  @ApiOkResponse({ type: DeleteGlassResponse })
   @Delete(':id')
   async remove(
     @Param('id') id: string,
