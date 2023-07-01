@@ -23,18 +23,22 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { LoginGuard } from 'src/auth/login.guard';
 import { AuthenticatedGuard } from 'src/auth/authenticated.guard';
+
 import {
   GetAllUsersResponse,
-  BadRequestErrorType,
-  ConflictErrorType,
   LoginRequestBody,
-  UnauthorizedErrorType,
   LoginResponse,
   SignUpResponse,
-  ForbiddenErrorType,
   ValidUser,
   LogoutResponse,
 } from './types';
+
+import {
+  BadRequestErrorType,
+  ConflictErrorType,
+  ForbiddenErrorType,
+  UnauthorizedErrorType,
+} from 'src/common/types';
 
 @ApiTags('users')
 @Controller('users')

@@ -1,9 +1,3 @@
-import {
-  BadRequestErrorType,
-  ConflictErrorType,
-  UnauthorizedErrorType,
-  ForbiddenErrorType,
-} from './error';
 import { LoginRequestBody } from './request';
 import {
   GetAllUsersResponse,
@@ -17,11 +11,7 @@ export {
   SignUpResponse,
   GetAllUsersResponse,
   ValidUser,
-  BadRequestErrorType,
-  ConflictErrorType,
   LoginRequestBody,
-  UnauthorizedErrorType,
   LoginResponse,
-  ForbiddenErrorType,
   LogoutResponse,
 };
