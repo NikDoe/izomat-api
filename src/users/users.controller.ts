@@ -14,6 +14,8 @@ import {
   ApiBody,
   ApiBadRequestResponse,
   ApiConflictResponse,
+  ApiUnauthorizedResponse,
+  ApiForbiddenResponse,
 } from '@nestjs/swagger';
 
 import { Response, Request } from 'express';
@@ -24,8 +26,14 @@ import { AuthenticatedGuard } from 'src/auth/authenticated.guard';
 import {
   GetAllUsersResponse,
   BadRequestErrorType,
-  SignUpResponse,
   ConflictErrorType,
+  LoginRequestBody,
+  UnauthorizedErrorType,
+  LoginResponse,
+  SignUpResponse,
+  ForbiddenErrorType,
+  ValidUser,
+  LogoutResponse,
 } from './types';
 
 @ApiTags('users')
@@ -66,6 +74,15 @@ export class UsersController {
     response.json({ message: 'регистрация прошла успешно', newUser });
   }
 
+  @ApiOperation({
+    summary: 'Вход пользователя в аккаунт',
+    description: 'Этот роут используется для входа пользователя в систему',
+  })
+  @ApiBody({
+    type: LoginRequestBody,
+  })
+  @ApiOkResponse({ type: LoginResponse })
+  @ApiUnauthorizedResponse({ type: UnauthorizedErrorType })
   @Post('login')
   @UseGuards(LoginGuard)
   async login(
@@ -76,6 +93,14 @@ export class UsersController {
     response.json({ message: 'вы вошли в систему', user });
   }
 
+  @ApiOperation({
+    summary: 'Проверка вошёл ли пользователь в аккаунт',
+  })
+  @ApiOkResponse({
+    type: ValidUser,
+    description: 'вернется обьект пользователя если его сессия активна',
+  })
+  @ApiForbiddenResponse({ type: ForbiddenErrorType })
   @Get('login-check')
   @UseGuards(AuthenticatedGuard)
   async loginCheck(
@@ -86,6 +111,10 @@ export class UsersController {
     response.json(user);
   }
 
+  @ApiOperation({
+    summary: 'Выход пользователя из аккаунта',
+  })
+  @ApiOkResponse({ type: LogoutResponse })
   @Get('logout')
   async logout(@Res() response: Response): Promise<void> {
     response.clearCookie(process.env.SESSION_ID_NAME);

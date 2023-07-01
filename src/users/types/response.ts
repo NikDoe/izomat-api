@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-class UserProps {
+export class UserObject {
   @ApiProperty({ example: 1 })
   id: number;
 
@@ -24,21 +24,38 @@ export class GetAllUsersResponse {
   @ApiProperty({ example: 'получены все пользователи' })
   message: string;
 
-  @ApiProperty({ type: UserProps, isArray: true })
-  users: UserProps[];
+  @ApiProperty({ type: UserObject, isArray: true })
+  users: UserObject[];
 }
 
 export class SignUpResponse {
   @ApiProperty({ example: 'регистрация прошла успешно' })
   message: string;
 
-  @ApiProperty({ type: UserProps })
-  newUser: {
-    id: number;
-    username: string;
-    password: string;
-    email: string;
-    updatedAt: string;
-    createdAt: string;
-  };
+  @ApiProperty({ type: UserObject })
+  newUser: UserObject;
+}
+
+class LoginUserObject implements Pick<UserObject, 'id' | 'username' | 'email'> {
+  @ApiProperty({ example: 1111 })
+  id: number;
+
+  @ApiProperty({ example: 'username' })
+  username: string;
+
+  @ApiProperty({ example: 'user@email.com' })
+  email: string;
+}
+
+export class LoginResponse {
+  @ApiProperty({ example: 'вы вошли в систему' })
+  message: string;
+
+  @ApiProperty({ type: LoginUserObject })
+  user: LoginUserObject;
+}
+
+export class LogoutResponse {
+  @ApiProperty({ example: 'вы вышли из системы' })
+  message: string;
 }

@@ -2,7 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 
 import * as bcrypt from 'bcrypt';
 
-import { ValidUserType } from 'src/users/types';
+import { ValidUser } from 'src/users/types';
 
 import { UsersService } from 'src/users/users.service';
 
@@ -10,10 +10,7 @@ import { UsersService } from 'src/users/users.service';
 export class AuthService {
   constructor(private readonly usersService: UsersService) {}
 
-  async validateUser(
-    username: string,
-    password: string,
-  ): Promise<ValidUserType> {
+  async validateUser(username: string, password: string): Promise<ValidUser> {
     const existingUser = await this.usersService.findOneUser({ username });
 
     if (!existingUser) {
@@ -30,7 +27,7 @@ export class AuthService {
 
     if (existingUser && validPassword) {
       return {
-        userId: existingUser.id as string,
+        id: existingUser.id,
         username: existingUser.username,
         email: existingUser.email,
       };
