@@ -12,6 +12,7 @@ import {
 import {
   ApiBadRequestResponse,
   ApiBody,
+  ApiConflictResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
@@ -30,7 +31,11 @@ import {
   GetAllGlassResponse,
   UpdateGlassResponse,
 } from './types';
-import { BadRequestErrorType, NotFoundErrorType } from 'src/common/types';
+import {
+  BadRequestErrorType,
+  ConflictErrorType,
+  NotFoundErrorType,
+} from 'src/common/types';
 
 @ApiTags('glasses')
 @Controller('glasses')
@@ -70,6 +75,7 @@ export class GlassesController {
   })
   @ApiOkResponse({ type: FindOneGlassResponse })
   @ApiNotFoundResponse({ type: NotFoundErrorType })
+  @ApiConflictResponse({ type: ConflictErrorType })
   @Get(':id')
   async findOne(
     @Param('id') id: string,
@@ -87,6 +93,8 @@ export class GlassesController {
   })
   @ApiBody({ type: UpdateGlassDto })
   @ApiOkResponse({ type: UpdateGlassResponse })
+  @ApiNotFoundResponse({ type: NotFoundErrorType })
+  @ApiConflictResponse({ type: ConflictErrorType })
   @Patch(':id')
   async update(
     @Param('id') id: string,
@@ -101,6 +109,7 @@ export class GlassesController {
     summary: 'Удаление конкретного объекта стекла',
   })
   @ApiOkResponse({ type: DeleteGlassResponse })
+  @ApiNotFoundResponse({ type: NotFoundErrorType })
   @Delete(':id')
   async remove(
     @Param('id') id: string,
