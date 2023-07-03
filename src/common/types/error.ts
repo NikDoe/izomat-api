@@ -28,3 +28,11 @@ export class ForbiddenErrorType extends ErrorResponseType {
   @ApiProperty({ example: HttpStatus.FORBIDDEN })
   statusCode: number;
 }
+
+export class NotFoundErrorType extends ErrorResponseType {
+  @ApiProperty({ example: HttpStatus.NOT_FOUND })
+  statusCode: number;
+
+  @ApiProperty({ example: 'Объект не найден' })
+  message: string;
+}

@@ -7,10 +7,12 @@ import {
   Param,
   Delete,
   Res,
+  NotFoundException,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiBody,
+  ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
@@ -28,7 +30,7 @@ import {
   GetAllGlassResponse,
   UpdateGlassResponse,
 } from './types';
-import { BadRequestErrorType } from 'src/common/types';
+import { BadRequestErrorType, NotFoundErrorType } from 'src/common/types';
 
 @ApiTags('glasses')
 @Controller('glasses')
@@ -67,12 +69,16 @@ export class GlassesController {
     summary: 'получение конкретного обьекта по ID',
   })
   @ApiOkResponse({ type: FindOneGlassResponse })
+  @ApiNotFoundResponse({ type: NotFoundErrorType })
   @Get(':id')
   async findOne(
     @Param('id') id: string,
     @Res() response: Response,
   ): Promise<void> {
     const findOneGlass = await this.glassesService.findOne({ id: +id });
+
+    if (!findOneGlass) throw new NotFoundException('Объект не найден');
+
     response.json({ message: `получен объект #${id}`, findOneGlass });
   }
 

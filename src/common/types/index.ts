@@ -3,6 +3,7 @@ import {
   ConflictErrorType,
   ForbiddenErrorType,
   UnauthorizedErrorType,
+  NotFoundErrorType,
 } from './error';
 
 export {
@@ -10,4 +11,5 @@ export {
   ConflictErrorType,
   ForbiddenErrorType,
   UnauthorizedErrorType,
+  NotFoundErrorType,
 };
