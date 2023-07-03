@@ -72,7 +72,7 @@ export class GlassesController {
     @Param('id') id: string,
     @Res() response: Response,
   ): Promise<void> {
-    const findOneGlass = await this.glassesService.findOne(+id);
+    const findOneGlass = await this.glassesService.findOne({ id: +id });
     response.json({ message: `получен объект #${id}`, findOneGlass });
   }
 
