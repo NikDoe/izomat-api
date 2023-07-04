@@ -39,6 +39,5 @@ export class CreateGlassDto {
 
   @ApiProperty({ example: 0 })
   @IsInt({ message: 'поле popularity не должно содеражать буквы' })
-  @IsNotEmpty({ message: 'поле popularity обязательно для заполнения' })
-  popularity: number;
+  popularity = 0;
 }

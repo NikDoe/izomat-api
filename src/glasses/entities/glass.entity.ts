@@ -1,6 +1,6 @@
 import { Column, DataType, Model, Table } from 'sequelize-typescript';
 
-@Table
+@Table({ tableName: 'glasses' })
 export class Glass extends Model {
   @Column({ defaultValue: 0, type: DataType.INTEGER })
   price: number;
@@ -23,6 +23,6 @@ export class Glass extends Model {
   @Column({ defaultValue: false, type: DataType.BOOLEAN })
   new: boolean;
 
-  @Column({ type: DataType.INTEGER })
+  @Column({ defaultValue: 0, type: DataType.INTEGER })
   popularity: number;
 }
