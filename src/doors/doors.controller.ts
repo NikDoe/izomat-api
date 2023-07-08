@@ -9,6 +9,7 @@ import {
   Param,
   Delete,
   Res,
+  NotFoundException,
 } from '@nestjs/common';
 
 import {
@@ -78,7 +79,10 @@ export class DoorsController {
     @Param('id') id: string,
     @Res() response: Response,
   ): Promise<void> {
-    const findOneDoor = await this.doorsService.findOne(+id);
+    const findOneDoor = await this.doorsService.findOne({ id: +id });
+
+    if (!findOneDoor) throw new NotFoundException('Объект не найден');
+
     response.json({ message: `получены двери #${id}`, findOneDoor });
   }
 
