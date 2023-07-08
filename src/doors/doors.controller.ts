@@ -1,3 +1,5 @@
+import { Response } from 'express';
+
 import {
   Controller,
   Get,
@@ -8,18 +10,44 @@ import {
   Delete,
   Res,
 } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
+
+import {
+  ApiBadRequestResponse,
+  ApiBody,
+  ApiConflictResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 
 import { DoorsService } from './doors.service';
 import { CreateDoorDto } from './dto/create-door.dto';
 import { UpdateDoorDto } from './dto/update-door.dto';
-import { Response } from 'express';
+
+import {
+  CreateDoorResponse,
+  DeleteDoorResponse,
+  FindOneDoorResponse,
+  GetAllDoorsResponse,
+  UpdateDoorResponse,
+} from './types';
+
+import {
+  BadRequestErrorType,
+  ConflictErrorType,
+  NotFoundErrorType,
+} from 'src/common/types';
 
 @ApiTags('doors')
 @Controller('doors')
 export class DoorsController {
   constructor(private readonly doorsService: DoorsService) {}
 
+  @ApiOperation({ summary: 'Создание нового объекта дверей' })
+  @ApiBody({ description: 'Объект полученный из запроса', type: CreateDoorDto })
+  @ApiOkResponse({ type: CreateDoorResponse })
+  @ApiBadRequestResponse({ type: BadRequestErrorType })
   @Post()
   async create(
     @Body() createDoorDto: CreateDoorDto,
@@ -29,12 +57,22 @@ export class DoorsController {
     response.json({ message: 'новые двери успешно созданы', newDoor });
   }
 
+  @ApiOperation({
+    summary: 'Получение массива всех дверей',
+  })
+  @ApiOkResponse({ type: GetAllDoorsResponse })
   @Get()
   async findAll(@Res() response: Response): Promise<void> {
     const doors = await this.doorsService.findAll();
     response.json({ message: 'получены все двери', doors });
   }
 
+  @ApiOperation({
+    summary: 'получение конкретного обьекта по ID',
+  })
+  @ApiOkResponse({ type: FindOneDoorResponse })
+  @ApiNotFoundResponse({ type: NotFoundErrorType })
+  @ApiConflictResponse({ type: ConflictErrorType })
   @Get(':id')
   async findOne(
     @Param('id') id: string,
@@ -44,6 +82,13 @@ export class DoorsController {
     response.json({ message: `получены двери #${id}`, findOneDoor });
   }
 
+  @ApiOperation({
+    summary: 'изменение конкретного объекта дверей',
+  })
+  @ApiBody({ type: UpdateDoorDto })
+  @ApiOkResponse({ type: UpdateDoorResponse })
+  @ApiNotFoundResponse({ type: NotFoundErrorType })
+  @ApiConflictResponse({ type: ConflictErrorType })
   @Patch(':id')
   async update(
     @Param('id') id: string,
@@ -54,6 +99,11 @@ export class DoorsController {
     response.json({ message: `двери #${id} успешно обновлены`, updatedDoor });
   }
 
+  @ApiOperation({
+    summary: 'Удаление конкретного объекта дверей',
+  })
+  @ApiOkResponse({ type: DeleteDoorResponse })
+  @ApiNotFoundResponse({ type: NotFoundErrorType })
   @Delete(':id')
   async remove(
     @Param('id') id: string,

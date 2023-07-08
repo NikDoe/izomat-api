@@ -3,6 +3,7 @@ import {
   DeleteGlassResponse,
   FindOneGlassResponse,
   GetAllGlassResponse,
+  GlassObject,
   UpdateGlassResponse,
 } from './response';
 
@@ -12,4 +13,5 @@ export {
   FindOneGlassResponse,
   GetAllGlassResponse,
   UpdateGlassResponse,
+  GlassObject,
 };

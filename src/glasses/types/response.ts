@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { CreateGlassDto } from '../dto/create-glass.dto';
 
-class GlassObject extends CreateGlassDto {
+export class GlassObject extends CreateGlassDto {
   @ApiProperty({ example: '2023-07-01T12:37:59.171Z' })
   createdAt: string;
 
